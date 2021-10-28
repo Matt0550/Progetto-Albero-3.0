@@ -17,6 +17,15 @@ struct Led {
 const char* wifi_ssid = "Vodafone-C00070065";
 const char* wifi_passwd = "cYM4jiJ5TTjazgGsBY4-";
 
+// Set your Static IP address
+IPAddress local_IP(192, 168, 1, 25);
+// Set your Gateway IP address
+IPAddress gateway(192, 168, 1, 1);
+
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8); // optional
+IPAddress secondaryDNS(8, 8, 4, 4); // optional
+
 int pinGPIO[] = {1, 3, 15, 13, 12, 14, 2, 0, 4, 5, 6};
 
 ESP8266WebServer http_rest_server(HTTP_REST_PORT);
@@ -34,6 +43,9 @@ int init_wifi() {
 
     WiFi.mode(WIFI_STA);
     WiFi.begin(wifi_ssid, wifi_passwd);
+    if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+      Serial.println("STA Failed to configure");
+    }
     // check the status of WiFi connection to be WL_CONNECTED
     while ((WiFi.status() != WL_CONNECTED) && (retries < MAX_WIFI_INIT_RETRY)) {
         retries++;
@@ -44,6 +56,7 @@ int init_wifi() {
 }
 
 void get_leds() {
+    http_rest_server.sendHeader("Access-Control-Allow-Origin", "*");
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& jsonObj = jsonBuffer.createObject();
     char JSONmessageBuffer[200];
@@ -70,6 +83,7 @@ void json_to_resource(JsonObject& jsonBody) {
 }
 
 void post_put_leds() {
+    http_rest_server.sendHeader("Access-Control-Allow-Origin", "*");
     StaticJsonBuffer<500> jsonBuffer;
     String post_body = http_rest_server.arg("plain");
     Serial.println(post_body);
