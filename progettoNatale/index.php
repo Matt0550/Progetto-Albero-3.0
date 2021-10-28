@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>Progetto Natale Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <link href="./style.css" rel="stylesheet">
+
     </head>
     <body>
     <svg height="602.36218" id="svg1" version="1.0" width="531.49603" x="0.0000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0.0000000">
@@ -55,9 +59,13 @@
     </g>
     </g>
     </svg>
-    <p></p>
+    <p>Ultimo led acceso:</p>
+    <p>Led accesi:</p>
+    <p>Led spenti:</p>
+    <p>Status API: <b id="api_status"></b></p>
     <button type="button" onclick='edit_ball(13, false)'>Hide</button>
     <button type="button" onclick='edit_ball(13, true)'>Show</button>
+    <button type="button" onclick='ping("192.168.1.25/leds", "#api_status");'>Refresh API</button>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 

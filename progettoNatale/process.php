@@ -1,6 +1,6 @@
 <?php
 function led($pin, $status) {
-    $url = "192.168.1.10/leds";
+    $url = "192.168.1.25/leds";
     $data = array('gpio'=>$pin,'status'=>$status);
     $data_json = json_encode($data);
     

@@ -1,0 +1,11 @@
+.ping-success {
+    color: green;
+    font-weight: bold;
+}
+.ping-error {
+    color: red;
+    font-weight: bold;
+}
+.ball {
+    outline: none;
+}
