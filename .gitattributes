@@ -1,4 +1,0 @@
-*.js linguist-detectable=true
-*.hack linguist-detectable=false
-*.hck linguist-detectable=false
-*.hh linguist-detectable=false
