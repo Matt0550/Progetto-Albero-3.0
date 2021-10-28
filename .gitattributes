@@ -1,1 +1,4 @@
-*.hack linguist-detectable=false
+* linguist-vendored
+*.hack linguist-vendored=false
+*.hh linguist-vendored=false
+*.hck linguist-vendored=false
