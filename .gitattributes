@@ -2,3 +2,4 @@
 *.hack linguist-vendored=false
 *.hh linguist-vendored=false
 *.hck linguist-vendored=false
+*.js linguist-vendored=true
