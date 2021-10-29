@@ -59,6 +59,16 @@ $("#path2806").click(function() {
     }
 });
 
+var toastTrigger = document.getElementById('liveToastBtn')
+var toastLiveExample = document.getElementById('liveToast')
+if (toastTrigger) {
+  toastTrigger.addEventListener('click', function () {
+    var toast = new bootstrap.Toast(toastLiveExample)
+
+    toast.show()
+  })
+}
+
 function ping(host, pong) { 
     var http = new XMLHttpRequest();
     http.timeout = 2000;
