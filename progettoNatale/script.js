@@ -2,6 +2,23 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
 
+function toast(title, info, color) {
+    var statusToast = document.getElementById('statusToast')
+    var toast = new bootstrap.Toast(document.getElementById('statusToast'));
+    $("#statusToastTitle").text(" "+title);
+    $("#statusToastInfo").text(info);
+
+    $(statusToast).removeClass("bg-primary");
+    $("#statusToastHeader").removeClass("bg-primary");
+
+    $(statusToast).addClass(color);
+    $("#statusToastHeader").addClass(color);
+
+
+    toast.show();
+
+}
+
 function create_ball(id, X, Y) {
     var svg = document.getElementsByTagName("svg")[0];
     var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -15,25 +32,69 @@ function create_ball(id, X, Y) {
     var pathElement = svg.appendChild(path);
     var state = false;
 
+    $.getJSON("http://192.168.1.25/leds", function(result) {
+        if(result.pins[id].state == 1) {
+            state = false;
+
+        } else {
+            state = true;
+        }
+    });
+
     $("#"+id.toString()).click(function(){
         var element = svg.getElementById(id.toString());
-        console.log("Id: " + id + " click!");
+        $("#ultimo_led_acceso").text(id);
+
         if(state == false) {
             state = true;
             element.style.opacity='0.5';
             $.ajax({
-                url: 'process.php?pin='+id+'&status=0',
+                type: "PUT",
+                url: './api/?option=led&pin='+id+'&state=0',
+                success: function() {
+                    console.log("Turn OFF led " + id);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    $("#api_status").text("Offline");
+                    $("#api_status").removeClass("ping-success");
+                    $("#api_status").addClass("ping-error");
+                    toast("Notifica di sistema", "L'API server non risponde. Verifica connessione di rete e alimentazione", "bg-danger");
+                }
             });
-                
 
         } else {
             state = false;
             element.style.opacity='1';
             $.ajax({
-                url: 'process.php?pin='+id+'&status=1',
+                type: "PUT",
+                url: './api/?option=led&pin='+id+'&state=1',
+                success: function() {
+                    console.log("Turn ON led " + id);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    $("#api_status").text("Offline");
+                    $("#api_status").removeClass("ping-success");
+                    $("#api_status").addClass("ping-error");
+                    toast("Notifica di sistema", "L'API server non risponde. Verifica connessione di rete e alimentazione", "bg-danger");
+                }
             });                    
         }
     });
+
+    $.getJSON("http://192.168.1.25/leds", function(result) {
+        $.each(result.pins, function(index, val) {
+            var svg = document.getElementsByTagName("svg")[0];
+            var element = svg.getElementById(val.pin.toString());
+            if (val.state == 1) {
+                element.style.opacity='1';
+            } else {
+                element.style.opacity='0.5';
+            }
+        });
+    });
+
     $('.ball').tooltip({
         title: "Led " + id,
         html: true,
@@ -43,64 +104,8 @@ function create_ball(id, X, Y) {
     
 }
 
-$("#path2806").click(function() {
-    var state = false;
-    var svg = document.getElementsByTagName("svg")[0];
-    var element = svg.getElementById("path2806");
-    console.log("Id: cometa click! State: " + state);
-
-    if(state == false) {
-        state = true;
-        element.style.opacity='0.5';
-
-    } else {
-        state = false;
-        element.style.opacity='1';             
-    }
-});
-
-var toastTrigger = document.getElementById('liveToastBtn')
-var toastLiveExample = document.getElementById('liveToast')
-if (toastTrigger) {
-  toastTrigger.addEventListener('click', function () {
-    var toast = new bootstrap.Toast(toastLiveExample)
-
-    toast.show()
-  })
-}
-
-function ping(host, pong) { 
-    var http = new XMLHttpRequest();
-    http.timeout = 2000;
-
-    http.open("GET", "http://" + host, /*async*/true);
-    http.onreadystatechange = function() {
-        if (http.status == 200) {
-            $(pong).text("OK");
-            $(pong).removeClass("ping-error");
-            $(pong).addClass("ping-success");
-
-        } else {
-            $(pong).text("Error");
-            $(pong).removeClass("ping-success");
-            $(pong).addClass("ping-error");
-
-        }
-    };
-    http.send(null);  
-}
-
-ping("192.168.1.25/leds", "#api_status");
-
-function refresh_ball() {
-    $.getJSON("leds.json", function(result){
-        $.each(result, function(index, val){
-            console.log(index, val);
-            console.log("Id: "+ val.id + " X: "+ val.X + " Y: " + val.Y+ " Visible: "+ val.visible);
-            create_ball(val.id, val.X, val.Y);
-            
-        });
-    }).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
+function delete_ball(id) {
+    $(id).remove();
 }
 
 function edit_ball(id, visible) {
@@ -123,18 +128,109 @@ function edit_ball(id, visible) {
 }
 
 
-$.getJSON("leds.json", function(result){
-    $.each(result, function(index, val){
-        if(val.visible === true) {
-            create_ball(val.id, val.X, val.Y);
-            edit_ball(val.id, true);
-        } else {
-            create_ball(val.id, val.X, val.Y);
-            edit_ball(val.id, false);
-        }
-        console.log(index, val);
-        console.log("Id: "+ val.id + " X: "+ val.X + " Y: " + val.Y+ " Visible: "+ val.visible);
-      
-        
-    });
+
+
+$.getJSON("./api/?option=status&url=192.168.1.25/leds", function(data) {
+    if (data.online === true) {
+        $("#api_status").text("Online");
+        $("#api_status").removeClass("ping-error");
+        $("#api_status").addClass("ping-success");
+    } else {
+        $("#api_status").text("Offline");
+        $("#api_status").removeClass("ping-success");
+        $("#api_status").addClass("ping-error");
+        toast("Notifica di sistema", "L'API server non risponde. Verifica connessione di rete e alimentazione", "bg-danger");
+
+    }
+    console.log(data);
 }).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
+
+
+$(document).ready(function() {
+    var state = false;
+
+    $("#path2806").click(function() {
+        var svg = document.getElementsByTagName("svg")[0];
+        var element = svg.getElementById("path2806");
+
+        console.log("Id: cometa click! State: " + state);
+
+        if(state == false) {
+            state = true;
+            element.style.opacity='0.5';
+
+        } else {
+            state = false;
+            element.style.opacity='1';             
+        }
+    });
+    
+    $.ajax({
+        url: "http://192.168.1.25/leds",
+        dataType: 'json',
+        success: function(result) {
+            $.each(result.pins, function(index, val) {
+                $.getJSON("leds.json", function(result){
+                    $.each(result, function(index1, val1){
+                        if(val.pin == val1.id) {
+                            create_ball(val1.id, val1.X, val1.Y);
+                            var svg = document.getElementsByTagName("svg")[0];
+                            var element = svg.getElementById(val.pin.toString());
+
+                            if(val.connected == true) {
+                                edit_ball(val1.id, true);
+                                if (val.state == 1) {
+                                    element.style.opacity='1';
+                                    
+                                } else {
+                                    element.style.opacity='0.5';
+                                }
+                            } else {
+                                edit_ball(val1.id, false);
+                            }
+
+
+            
+                        }
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
+    
+            });
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError);
+        },
+        timeout: 3000 //3 second timeout
+    });
+
+});
+
+
+function refresh_ball() {
+    $.getJSON("http://192.168.1.25/leds", function(result) {
+        $.each(result.pins, function(index, val) {
+            $.getJSON("leds.json", function(result){
+                $.each(result, function(index1, val1){
+                    if(val.pin == val1.id) {
+                        create_ball(val1.id, val1.X, val1.Y);
+
+                        if(val.connected == true) {
+                            edit_ball(val1.id, true);
+                        } else {
+                            edit_ball(val1.id, false);
+                        }
+                        var svg = document.getElementsByTagName("svg")[0];
+                        var element = svg.getElementById(val.pin.toString());
+                        if (val.state == 1) {
+                            element.style.opacity='1';
+                        } else {
+                            element.style.opacity='0.5';
+                        }
+        
+                    }
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
+
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {console.log("fail " + errorThrown);});
+}
