@@ -14,8 +14,8 @@ struct Led {
     byte status;
 } led_resource;
 
-const char* wifi_ssid = "";
-const char* wifi_passwd = "";
+const char* wifi_ssid = "Vodafone-C00070065";
+const char* wifi_passwd = "cYM4jiJ5TTjazgGsBY4-";
 
 // Set your Static IP address
 IPAddress local_IP(192, 168, 1, 25);
@@ -26,7 +26,7 @@ IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8); // optional
 IPAddress secondaryDNS(8, 8, 4, 4); // optional
 
-int pinGPIO[] = {1, 3, 15, 13, 12, 14, 2, 0, 4, 5, 6};
+int pinGPIO[] = {2, 13, 15};
 
 ESP8266WebServer http_rest_server(HTTP_REST_PORT);
 
@@ -57,16 +57,26 @@ int init_wifi() {
 
 void get_leds() {
     http_rest_server.sendHeader("Access-Control-Allow-Origin", "*");
-    StaticJsonBuffer<200> jsonBuffer;
-    JsonObject& jsonObj = jsonBuffer.createObject();
-    char JSONmessageBuffer[200];
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.createObject();
+    JsonObject& pins = root.createNestedObject("pins");
+    String json;
 
-   
-    jsonObj["gpio"] = led_resource.gpio;
-    jsonObj["status"] = led_resource.status;
-    jsonObj.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
-    http_rest_server.send(200, "application/json", JSONmessageBuffer);
-    
+    int pinGPIOLEN = sizeof(pinGPIO)/sizeof(pinGPIO[0]);
+    for(int i = 0; i < pinGPIOLEN; i++) {
+      int state = digitalRead(pinGPIO[i]);
+
+      JsonObject& pin = pins.createNestedObject(String(pinGPIO[i]));
+      pin["pin"] = pinGPIO[i];
+      pin["state"] = state;
+      pin["connected"] = true;
+
+      root.prettyPrintTo(Serial);
+      json = "";
+      root.prettyPrintTo(json);
+
+    }
+    http_rest_server.send(200, "application/json", json);      
 }
 
 void json_to_resource(JsonObject& jsonBody) {
@@ -142,7 +152,7 @@ void setup(void) {
     Serial.println("HTTP REST Server Started");
     Serial.println("Checking GPIO PIN");
     int pinGPIOLEN = sizeof(pinGPIO)/sizeof(pinGPIO[0]);
-    for(int i = 1; i < pinGPIOLEN; i++) {
+    for(int i = 0; i < pinGPIOLEN; i++) {
       int state = digitalRead(pinGPIO[i]);
       Serial.println((String)"Led "+pinGPIO[i]+": "+state);
     }
