@@ -59,6 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                     http_response_code(200);
                     $data = ['offline' => false, 'status' => "timeout", 'code' => 200];   
                 }
+            } else {
+                http_response_code(404);
+                $data = ['status' => "error", 'message' => 'Url not valid or not found', 'code' => 404];
             }
 
         } else if ($option == "led") {
@@ -137,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 } else {    
     http_response_code(405);
-    header('Allow: GET'); 
+    header('Allow: GET, PUT'); 
     $data = ['status' => "error", 'message' => "HTTP/1.1 405 Method Not Allowed", 'code' => 405];
 }
 
