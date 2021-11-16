@@ -14,8 +14,8 @@ struct Led {
     byte status;
 } led_resource;
 
-const char* wifi_ssid = "Vodafone-C00070065";
-const char* wifi_passwd = "cYM4jiJ5TTjazgGsBY4-";
+const char* wifi_ssid = "";
+const char* wifi_passwd = "";
 
 // Set your Static IP address
 IPAddress local_IP(192, 168, 1, 25);
