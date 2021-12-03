@@ -15,7 +15,7 @@ struct Led {
 } led_resource;
 
 const char* wifi_ssid = "rapdocenti";
-const char* wifi_passwd = "docrap1516";
+const char* wifi_passwd = "##";
 
 // Set your Static IP address
 IPAddress local_IP(10, 3, 1, 25);
