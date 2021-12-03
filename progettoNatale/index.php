@@ -64,9 +64,7 @@
     <p>Led accesi: <b id="led_accesi"></b></p>
     <p>Led spenti: <b id="led_spenti"></b></p>
     <p>Status API: <b id="api_status"></b></p>
-    <button type="button" onclick='edit_ball(13, false)'>Hide</button>
-    <button type="button" onclick='edit_ball(13, true)'>Show</button>
-    <button type="button" onclick='refresh_ball()'>Refresh API</button>
+    <button type="button" onclick='disco()' style="margin-left: 10px;">Disco</button>
 
     <div class="toast-container position-absolute p-3 top-0 end-0" style="z-index: 11">
         <div class="toast bg-primary text-white" id="statusToast">
