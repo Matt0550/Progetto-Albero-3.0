@@ -3,19 +3,19 @@
         "id": 31,
         "X": 264,
         "Y": 13,
-        "last_state": false
+        "last_state": true
     },
     "32": {
         "id": 32,
         "X": 45,
         "Y": 90,
-        "last_state": false
+        "last_state": true
     },
     "35": {
         "id": 35,
         "X": 170,
         "Y": -130,
-        "last_state": false
+        "last_state": true
     },
     "36": {
         "id": 36,
@@ -39,7 +39,7 @@
         "id": 43,
         "X": 78,
         "Y": -126,
-        "last_state": false
+        "last_state": true
     },
     "44": {
         "id": 44,

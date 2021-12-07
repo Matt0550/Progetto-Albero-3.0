@@ -18,7 +18,7 @@ function toast(title, info, color) {
     toast.show();
 
 }
-
+var interval = 1000;
 function power_ball(led, state) {
     $.ajax({
         type: "PUT",
@@ -77,7 +77,6 @@ function create_ball(id, X, Y) {
         'container': 'body',
         'placement': 'bottom'
     });
-    
 }
 
 $.getJSON("./api/?option=status&url=10.3.1.25/leds", function(data) {
@@ -118,23 +117,14 @@ $(document).ready(function() {
         }
     });
     
-
     $.getJSON("leds.json", function(result){
         $.each(result, function(index1, val1){
-            setTimeout(() => {
-
-                create_ball(val1.id, val1.X, val1.Y);
-                var svg = document.getElementsByTagName("svg")[0];
-                var element = svg.getElementById(val1.id.toString());
-                if(val1.last_state == false) {
-                    element.style.opacity='0.5';
-                    power_ball(val1.id, 0);
-                } else {
-                    element.style.opacity='1';
-                    power_ball(val1.id, 1);
-                }
-             }, 1000);
+            create_ball(val1.id, val1.X, val1.Y);
+            var svg = document.getElementsByTagName("svg")[0];
+            var element = svg.getElementById(val1.id.toString());
+            power_ball(val1.id, 0);
         });
+
     })
 
 });
