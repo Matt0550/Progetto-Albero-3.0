@@ -6,9 +6,18 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <link href="./style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+        <div class="overlay" style="display: none;">
+            <div class="overlay__inner">
+                <div class="overlay__content"><span class="spinner"></span></div>
+            </div>
+            <p id="text-loader" class="position-absolute bottom-0 start-50 translate-middle-x"></p>
+            <p id="time-loader" class="position-absolute bottom-0 start-50 translate-middle-x" style="display: none;"></p>
+
+        </div>
+    
     <svg height="602.36218" id="svg1" version="1.0" width="531.49603" x="0.0000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0.0000000">
 
     <defs id="defs3">

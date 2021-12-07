@@ -1,3 +1,6 @@
+var localApi = "./api/";
+var publicApi = "192.168.1.25";
+
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
@@ -18,11 +21,11 @@ function toast(title, info, color) {
     toast.show();
 
 }
-var interval = 1000;
+
 function power_ball(led, state) {
     $.ajax({
         type: "PUT",
-        url: './api/?option=led&pin='+led+'&state='+state,
+        url: localApi+'?option=led&pin='+led+'&state='+state,
         success: function() {
             if(state == 1) {
                 console.log("Turn ON led " + led);
@@ -77,9 +80,10 @@ function create_ball(id, X, Y) {
         'container': 'body',
         'placement': 'bottom'
     });
+    
 }
 
-$.getJSON("./api/?option=status&url=10.3.1.25/leds", function(data) {
+$.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
     if (data.online === true) {
         $("#api_status").text("Online");
         $("#api_status").removeClass("ping-error");
@@ -98,7 +102,21 @@ function disco() {
     power_ball(99, 1)
 }
 
+function loader_text(text, loading_number, loading_number_max, time_max) {
+    $("#text-loader").fadeOut("fast", function() {
+        $(this).text(text + " (" + loading_number + "/"+ loading_number_max + ")");
+        $("#time-loader").text("Tempo stimato: "+time_max).fadeIn("fast");
+
+    }).fadeIn();
+}
+function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
 $(document).ready(function() {
+    $(".overlay").fadeIn("fast");
     var state = false;
 
     $("#path2806").click(function() {
@@ -117,14 +135,26 @@ $(document).ready(function() {
         }
     });
     
-    $.getJSON("leds.json", function(result){
-        $.each(result, function(index1, val1){
-            create_ball(val1.id, val1.X, val1.Y);
-            var svg = document.getElementsByTagName("svg")[0];
-            var element = svg.getElementById(val1.id.toString());
-            power_ball(val1.id, 0);
-        });
+    var time = 500;
+    var i = 1;
+    var x = 0;
 
-    })
+    $.getJSON("leds.json", function(result){
+        $.each(result, function(index, val){
+            x++;
+            var second_time = time;
+            setTimeout(function() {
+                create_ball(val.id, val.X, val.Y);
+                var svg = document.getElementsByTagName("svg")[0];
+                var element = svg.getElementById(val.id.toString());
+                power_ball(val.id, 0);
+                loader_text("Accensione led " + val.id, i++, x, millisToMinutesAndSeconds(time));
+                if(i==x+1) {
+                    $(".overlay").fadeOut("slow");
+                }
+            }, time);
+            time += 1200;
+        });
+    });
 
 });
