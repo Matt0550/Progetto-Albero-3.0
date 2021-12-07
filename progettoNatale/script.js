@@ -147,7 +147,7 @@ $(document).ready(function() {
                 create_ball(val.id, val.X, val.Y);
                 var svg = document.getElementsByTagName("svg")[0];
                 var element = svg.getElementById(val.id.toString());
-                power_ball(val.id, 0);
+                power_ball(val.id, 1);
                 loader_text("Accensione led " + val.id, i++, x, millisToMinutesAndSeconds(time));
                 if(i==x+1) {
                     $(".overlay").fadeOut("slow");
