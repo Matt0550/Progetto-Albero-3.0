@@ -1,5 +1,12 @@
+/*
+By Matteo Sillitti
+3C INF
+08.12.2021
+*/
+
 var localApi = "./api/";
 var publicApi = "192.168.1.25";
+
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -27,10 +34,16 @@ function power_ball(led, state) {
         type: "PUT",
         url: localApi+'?option=led&pin='+led+'&state='+state,
         success: function() {
-            if(state == 1) {
-                console.log("Turn ON led " + led);
+            if(led == 99 && state == 1) {
+                console.log("Accensione di tutti i led");
+            } else if(led == 99 && state == 0) {
+                console.log("Spegnimento di tutti i led");
             } else {
-                console.log("Turn OFF led " + led);
+                if(state == 1) {
+                    console.log("Turn ON led " + led);
+                } else {
+                    console.log("Turn OFF led " + led);
+                }
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -44,7 +57,6 @@ function power_ball(led, state) {
 }
 
 function create_ball(id, X, Y) {
-    var state = false;
     var svg = document.getElementsByTagName("svg")[0];
     var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     var element = svg.getElementById(id.toString());
@@ -58,17 +70,16 @@ function create_ball(id, X, Y) {
 
     $("#"+id.toString()).click(function(){
         var element = svg.getElementById(id.toString());
+        var opacity = element.style.opacity;
         $("#ultimo_led_acceso").text(id);
 
-        if(state == false) {
-            state = true;
+        if(opacity == "1") {
             element.style.opacity='0.5';
-            power_ball(id, state);
+            power_ball(id, 0);
 
         } else {
-            state = false;
             element.style.opacity='1';
-            power_ball(id, state);               
+            power_ball(id, 1);               
         }
     });
 
@@ -81,20 +92,6 @@ function create_ball(id, X, Y) {
     
 }
 
-$.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
-    if (data.online === true) {
-        $("#api_status").text("Online");
-        $("#api_status").removeClass("ping-error");
-        $("#api_status").addClass("ping-success");
-    } else {
-        $("#api_status").text("Offline");
-        $("#api_status").removeClass("ping-success");
-        $("#api_status").addClass("ping-error");
-        toast("Notifica di sistema", "L'API server non risponde. Verifica connessione di rete e alimentazione", "bg-danger");
-
-    }
-    console.log(data);
-}).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
 
 function AllLedOnOff(state) {
     power_ball(99, state);
@@ -118,34 +115,48 @@ function loader_text(text) {
     }).fadeIn();
 }
 
+$("#path2806").click(function() {
+    var svg = document.getElementsByTagName("svg")[0];
+    var element = svg.getElementById("path2806");
+    var opacity = element.style.opacity;
+
+    console.log("Id: cometa click!");
+
+    if(opacity == "1") {
+        element.style.opacity='0.5';
+
+    } else {
+        element.style.opacity='1';             
+    }
+});
+
+$.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
+    if (data.online === true) {
+        $("#api_status").text("Online");
+        $("#api_status").removeClass("ping-error");
+        $("#api_status").addClass("ping-success");
+
+        $.getJSON("leds.json", function(result){
+            $.each(result, function(index, val){
+                create_ball(val.id, val.X, val.Y);
+                var svg = document.getElementsByTagName("svg")[0];
+                var element = svg.getElementById(val.id.toString());
+            });
+        });
+        AllLedOnOff(1);
+
+    } else {
+        $("#api_status").text("Offline");
+        $("#api_status").removeClass("ping-success");
+        $("#api_status").addClass("ping-error");
+        toast("Notifica di sistema", "L'API server non risponde. Verifica connessione di rete e alimentazione", "bg-danger");
+
+    }
+    console.log(data);
+}).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
+
 
 $(document).ready(function() {
-    $(".overlay").fadeIn("fast");
-
-    $("#path2806").click(function() {
-        var svg = document.getElementsByTagName("svg")[0];
-        var element = svg.getElementById("path2806");
-
-        console.log("Id: cometa click! State: " + state);
-
-        if(state == false) {
-            state = true;
-            element.style.opacity='0.5';
-
-        } else {
-            state = false;
-            element.style.opacity='1';             
-        }
-    });
-    
-    AllLedOnOff(0);
-    $.getJSON("leds.json", function(result){
-        $.each(result, function(index, val){
-            create_ball(val.id, val.X, val.Y);
-            var svg = document.getElementsByTagName("svg")[0];
-            var element = svg.getElementById(val.id.toString());
-            loader_text("Caricamento Albero di Natale");
-        });
-    });
+    loader_text("Caricamento UI");
     $(".overlay").fadeOut("fast").remove();
 });

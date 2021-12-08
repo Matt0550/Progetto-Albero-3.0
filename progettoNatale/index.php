@@ -67,11 +67,9 @@
     </g>
     </g>
     </svg>
-    <p>Ultimo led acceso: <b id="ultimo_led_acceso"></b></p>
-    <p>Led accesi: <b id="led_accesi"></b></p>
-    <p>Led spenti: <b id="led_spenti"></b></p>
-    <p>Status API: <b id="api_status"></b></p>
-    <button type="button" onclick='disco()' style="margin-left: 10px;">Disco</button>
+    <p>Status Public API: <b id="api_status"></b></p>
+    <button type="button" onclick='AllLedOnOff(1)' style="margin-left: 10px;">Tutto acceso</button><button type="button" onclick='AllLedOnOff(0)' style="margin-left: 10px;">Tutto spento</button>
+
 
     <div class="toast-container position-absolute p-3 top-0 end-0" style="z-index: 11">
         <div class="toast bg-primary text-white" id="statusToast">
