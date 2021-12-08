@@ -72,8 +72,6 @@ function create_ball(id, X, Y) {
         }
     });
 
-
-
     $('.ball').tooltip({
         title: "Led " + id,
         html: true,
@@ -98,26 +96,31 @@ $.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
     console.log(data);
 }).fail(function (jqXHR, textStatus, errorThrown) { console.log("fail " + errorThrown); });
 
-function disco() {
-    power_ball(99, 1)
+function AllLedOnOff(state) {
+    power_ball(99, state);
+    $.getJSON("leds.json", function(result){
+        $.each(result, function(index, val){
+            var svg = document.getElementsByTagName("svg")[0];
+            if(state === 1) {
+                var element = svg.getElementById(val.id.toString());
+                element.style.opacity='1';
+            } else if(state === 0) {
+                var element = svg.getElementById(val.id.toString());
+                element.style.opacity='0.5';
+            }
+        });
+    });
 }
 
-function loader_text(text, loading_number, loading_number_max, time_max) {
+function loader_text(text) {
     $("#text-loader").fadeOut("fast", function() {
-        $(this).text(text + " (" + loading_number + "/"+ loading_number_max + ")");
-        $("#time-loader").text("Tempo stimato: "+time_max).fadeIn("fast");
-
+        $(this).text(text);
     }).fadeIn();
 }
-function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-}
+
 
 $(document).ready(function() {
     $(".overlay").fadeIn("fast");
-    var state = false;
 
     $("#path2806").click(function() {
         var svg = document.getElementsByTagName("svg")[0];
@@ -135,26 +138,14 @@ $(document).ready(function() {
         }
     });
     
-    var time = 500;
-    var i = 1;
-    var x = 0;
-
+    AllLedOnOff(0);
     $.getJSON("leds.json", function(result){
         $.each(result, function(index, val){
-            x++;
-            var second_time = time;
-            setTimeout(function() {
-                create_ball(val.id, val.X, val.Y);
-                var svg = document.getElementsByTagName("svg")[0];
-                var element = svg.getElementById(val.id.toString());
-                power_ball(val.id, 1);
-                loader_text("Accensione led " + val.id, i++, x, millisToMinutesAndSeconds(time));
-                if(i==x+1) {
-                    $(".overlay").fadeOut("slow");
-                }
-            }, time);
-            time += 1200;
+            create_ball(val.id, val.X, val.Y);
+            var svg = document.getElementsByTagName("svg")[0];
+            var element = svg.getElementById(val.id.toString());
+            loader_text("Caricamento Albero di Natale");
         });
     });
-
+    $(".overlay").fadeOut("fast").remove();
 });

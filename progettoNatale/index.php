@@ -9,13 +9,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div class="overlay" style="display: none;">
+        <div class="overlay">
             <div class="overlay__inner">
                 <div class="overlay__content"><span class="spinner"></span></div>
             </div>
             <p id="text-loader" class="position-absolute bottom-0 start-50 translate-middle-x"></p>
-            <p id="time-loader" class="position-absolute bottom-0 start-50 translate-middle-x" style="display: none;"></p>
-
         </div>
     
     <svg height="602.36218" id="svg1" version="1.0" width="531.49603" x="0.0000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0.0000000">
