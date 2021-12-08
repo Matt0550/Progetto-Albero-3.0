@@ -1,9 +1,3 @@
-/*
-By Matteo Sillitti
-3C INF
-08.12.2021
-*/
-
 var localApi = "./api/";
 var publicApi = "192.168.1.25";
 
