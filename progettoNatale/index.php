@@ -16,7 +16,7 @@
             <p id="text-loader" class="position-absolute bottom-0 start-50 translate-middle-x"></p>
         </div>
     
-    <svg height="602.36218" id="svg1" version="1.0" width="531.49603" x="0.0000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0.0000000">
+    <svg class="position-absolute top-50 start-50 translate-middle" height="602.36218" id="svg1" version="1.0" width="531.49603" x="0.0000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0.0000000">
 
     <defs id="defs3">
         <linearGradient id="linearGradient3429">
@@ -67,10 +67,11 @@
     </g>
     </g>
     </svg>
-    <p>Status Public API: <b id="api_status"></b></p>
-    <button type="button" onclick='AllLedOnOff(1)' style="margin-left: 10px;">Tutto acceso</button><button type="button" onclick='AllLedOnOff(0)' style="margin-left: 10px;">Tutto spento</button>
+    <div class="position-absolute bottom-0 start-0 div-button">
+        <p>Status Public API: <b id="api_status"></b></p>
+        <button type="button" onclick='AllLedOnOff(1)' style="margin-left: 10px;">Tutto acceso</button><button type="button" onclick='AllLedOnOff(0)' style="margin-left: 10px;">Tutto spento</button>
 
-
+    </div>
     <div class="toast-container position-absolute p-3 top-0 end-0" style="z-index: 11">
         <div class="toast bg-primary text-white" id="statusToast">
             <div class="toast-header bg-primary text-white" id="statusToastHeader">

@@ -7,7 +7,7 @@ function led($pin, $status) {
     // $jsonString = file_get_contents("../leds.json");
     // $jsonStringLed = json_decode($jsonString, true);
 
-    $url = "192.168.1.25/leds";
+    $url = "10.3.1.25/leds";
     $data = array('gpio'=>$pin,'status'=>$status);
     $data_json = json_encode($data);
     
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             }
 
         } else if ($option == "led") {
-            $url = "192.168.1.25/leds";
+            $url = "10.3.1.25/leds";
             
             $options = array(
                 CURLOPT_RETURNTRANSFER => true,   // return web page

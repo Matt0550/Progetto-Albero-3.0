@@ -1,5 +1,5 @@
 var localApi = "./api/";
-var publicApi = "192.168.1.25";
+var publicApi = "10.3.1.25";
 
 
 $(function () {
