@@ -61,7 +61,7 @@
     </svg>
     <div class="position-absolute bottom-0 start-0 div-button">
         <p>Status Public API: <b id="api_status"></b></p>
-        <input id="ledCheck" type="checkbox" data-toggle="toggle" checked onclick="checkInputLed()">
+        <input id="ledCheck" type="checkbox" data-toggle="toggle" checked>
 
     </div>
     <div class="toast-container position-absolute p-3 top-0 end-0" style="z-index: 11">

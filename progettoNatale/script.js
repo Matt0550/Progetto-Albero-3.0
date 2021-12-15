@@ -49,6 +49,7 @@ function power_ball(led, state) {
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);
+            $("#div-overlay").fadeOut();
             $("#api_status").text("Offline");
             $("#api_status").removeClass("ping-success");
             $("#api_status").addClass("ping-error");
@@ -148,7 +149,6 @@ $.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
         $("#api_status").text("Online");
         $("#api_status").removeClass("ping-error");
         $("#api_status").addClass("ping-success");
-
         $.getJSON("leds.json", function(result){
             $.each(result, function(index, val){
                 create_ball(val.id, val.X, val.Y);
