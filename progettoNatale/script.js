@@ -1,6 +1,5 @@
 var localApi = "./api/";
-var publicApi = "10.3.1.25";
-
+var publicApi = "192.168.1.25";
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -24,10 +23,14 @@ function toast(title, info, color) {
 }
 
 function power_ball(led, state) {
+    $("#div-overlay").fadeIn();
     $.ajax({
         type: "PUT",
         url: localApi+'?option=led&pin='+led+'&state='+state,
         success: function() {
+            $("#api_status").text("Online");
+            $("#api_status").removeClass("ping-error");
+            $("#api_status").addClass("ping-success");
             if(led == 99 && state == 1) {
                 console.log("Accensione di tutti i led");
             } else if(led == 99 && state == 0) {
@@ -39,6 +42,10 @@ function power_ball(led, state) {
                     console.log("Turn OFF led " + led);
                 }
             }
+
+            setTimeout(function() {
+                $("#div-overlay").fadeOut();
+            }, 1000);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown);
@@ -117,12 +124,24 @@ $("#path2806").click(function() {
     console.log("Id: cometa click!");
 
     if(opacity == "1") {
+        power_ball(43, 0);
         element.style.opacity='0.5';
 
     } else {
+        power_ball(43, 1);
         element.style.opacity='1';             
     }
 });
+$(function() {
+    $('#ledCheck').change(function() {
+        if ($(this).prop('checked') == true) {
+            AllLedOnOff(1);
+        } else if ($(this).prop('checked') == false) {
+            AllLedOnOff(0);
+        }
+    });
+});
+
 
 $.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
     if (data.online === true) {
@@ -151,6 +170,5 @@ $.getJSON("./api/?option=status&url="+ publicApi +"/leds", function(data) {
 
 
 $(document).ready(function() {
-    loader_text("Caricamento UI");
-    $(".overlay").fadeOut("fast").remove();
+    $("#div-overlay").fadeOut();
 });

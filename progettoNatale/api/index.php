@@ -4,10 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, PUT');
 
 function led($pin, $status) {
-    // $jsonString = file_get_contents("../leds.json");
-    // $jsonStringLed = json_decode($jsonString, true);
-
-    $url = "10.3.1.25/leds";
+    $url = "192.168.1.25/leds";
     $data = array('gpio'=>$pin,'status'=>$status);
     $data_json = json_encode($data);
     
@@ -25,14 +22,6 @@ function led($pin, $status) {
     curl_close($ch);
 
     if($httpcode == 200) {
-        // if($status == 0) {
-        //         $jsonStringLed[$pin]['last_state'] = false;
-        //     file_put_contents("../leds.json", json_encode($jsonStringLed, JSON_PRETTY_PRINT));
-        // } else {
-        //     $jsonStringLed[$pin]['last_state'] = true;
-        //     file_put_contents("../leds.json", json_encode($jsonStringLed, JSON_PRETTY_PRINT));
-        // }
-
         return true;	
   
     } else {
@@ -78,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             }
 
         } else if ($option == "led") {
-            $url = "10.3.1.25/leds";
+            $url = "192.168.1.25/leds";
             
             $options = array(
                 CURLOPT_RETURNTRANSFER => true,   // return web page

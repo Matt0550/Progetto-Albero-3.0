@@ -6,18 +6,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <link href="./style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div class="overlay">
-            <div class="overlay__inner">
-                <div class="overlay__content"><span class="spinner"></span></div>
-            </div>
-            <p id="text-loader" class="position-absolute bottom-0 start-50 translate-middle-x"></p>
-        </div>
-    
     <svg class="position-absolute top-50 start-50 translate-middle" height="602.36218" id="svg1" version="1.0" width="531.49603" x="0.0000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0.0000000">
-
     <defs id="defs3">
         <linearGradient id="linearGradient3429">
         <stop id="stop3430" offset="0.0000000" style="stop-color:#ffa900;stop-opacity:1.0000000;"/>
@@ -60,16 +53,15 @@
         <path d="M 338.76888,289.15491 C 253.41854,362.01496 149.72134,450.94587 82.717829,507.73508 C 66.074804,521.84098 145.24299,532.71565 176.39505,532.71565 C 205.61276,532.71565 235.38630,515.77721 263.82711,516.91487 C 287.42920,517.85896 309.45915,538.96081 332.52372,538.96081 C 357.33861,538.96081 381.84925,517.86363 407.46549,516.91487 C 438.05557,515.78189 469.91696,532.71565 501.14271,532.71565 C 532.36844,532.71565 610.75843,522.63238 594.81990,507.73508 C 534.06157,450.94587 424.11920,362.01496 338.76888,289.15491 z " id="path1535" style="fill:url(#linearGradient10);fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.6319624pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"/>
         <path d="M 338.75248,203.44110 C 271.03904,261.24526 188.76996,331.79938 135.61214,376.85359 C 122.40825,388.04463 185.21702,396.67215 209.93178,396.67215 C 233.11191,396.67215 256.73301,383.23389 279.29677,384.13646 C 298.02170,384.88546 315.49935,401.62680 333.79783,401.62680 C 353.48494,401.62680 372.93067,384.88917 393.25354,384.13646 C 417.52245,383.23760 442.79996,396.67215 467.57318,396.67215 C 492.34639,396.67215 554.53777,388.67250 541.89280,376.85359 C 493.68965,331.79938 406.46591,261.24526 338.75248,203.44110 z " id="path1534" style="fill:url(#linearGradient11);fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.2947316pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"/>
         <path d="M 338.73815,130.11023 C 286.43894,174.75590 222.89752,229.24913 181.84051,264.04724 C 171.64234,272.69076 220.15338,279.35432 239.24209,279.35432 C 257.14551,279.35432 275.38952,268.97514 292.81689,269.67224 C 307.27929,270.25074 320.77835,283.18110 334.91138,283.18110 C 350.11693,283.18110 365.13605,270.25360 380.83264,269.67224 C 399.57699,268.97800 419.10035,279.35432 438.23421,279.35432 C 457.36807,279.35432 505.40226,273.17571 495.63578,264.04724 C 458.40555,229.24913 391.03736,174.75590 338.73815,130.11023 z " id="path908" style="fill:url(#linearGradient1533);fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"/>
-        <path d="M 341.53936,126.28346 C 338.97633,130.67723 312.42961,118.66482 308.01307,121.18842 C 303.59654,123.71202 300.46680,152.68150 295.38016,152.65874 C 290.29353,152.63597 287.42323,123.63963 283.02946,121.07660 C 278.63569,118.51357 251.98251,130.28788 249.45891,125.87134 C 246.93530,121.45480 270.61172,104.47088 270.63449,99.384245 C 270.65725,94.297611 247.13381,77.102434 249.69685,72.708663 C 252.25988,68.314892 278.80660,80.327309 283.22313,77.803708 C 287.63967,75.280108 290.76941,46.310622 295.85604,46.333388 C 300.94268,46.356154 303.81298,75.352494 308.20675,77.915527 C 312.60052,80.478560 339.25370,68.704251 341.77730,73.120788 C 344.30090,77.537325 320.62448,94.521249 320.60172,99.607882 C 320.57895,104.69452 344.10239,121.88969 341.53936,126.28346 z " id="path2806" style="fill:url(#radialGradient3428);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" transform="translate(43.07144,7.653543)"/>
+        <path d="M 341.53936,126.28346 C 338.97633,130.67723 312.42961,118.66482 308.01307,121.18842 C 303.59654,123.71202 300.46680,152.68150 295.38016,152.65874 C 290.29353,152.63597 287.42323,123.63963 283.02946,121.07660 C 278.63569,118.51357 251.98251,130.28788 249.45891,125.87134 C 246.93530,121.45480 270.61172,104.47088 270.63449,99.384245 C 270.65725,94.297611 247.13381,77.102434 249.69685,72.708663 C 252.25988,68.314892 278.80660,80.327309 283.22313,77.803708 C 287.63967,75.280108 290.76941,46.310622 295.85604,46.333388 C 300.94268,46.356154 303.81298,75.352494 308.20675,77.915527 C 312.60052,80.478560 339.25370,68.704251 341.77730,73.120788 C 344.30090,77.537325 320.62448,94.521249 320.60172,99.607882 C 320.57895,104.69452 344.10239,121.88969 341.53936,126.28346 z " id="path2806" style="opacity:1;fill:url(#radialGradient3428);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" transform="translate(43.07144,7.653543)"/>
         </g>
         <g id="g3432">
-
     </g>
     </g>
     </svg>
     <div class="position-absolute bottom-0 start-0 div-button">
         <p>Status Public API: <b id="api_status"></b></p>
-        <button type="button" onclick='AllLedOnOff(1)' style="margin-left: 10px;">Tutto acceso</button><button type="button" onclick='AllLedOnOff(0)' style="margin-left: 10px;">Tutto spento</button>
+        <input id="ledCheck" type="checkbox" data-toggle="toggle" checked onclick="checkInputLed()">
 
     </div>
     <div class="toast-container position-absolute p-3 top-0 end-0" style="z-index: 11">
@@ -82,9 +74,9 @@
             </div>
         </div>
     </div>
-
+    <div id="div-overlay" class="div-overlay"><span class="spinner-border loader text-light" role="status"></span></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script src="./script.js"></script>
     </body>
 </html>
